@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h4 >Вы зашли под именем {{ request.user.username }}</h4>
+        <a href="{% url 'logout' %}">Разлогиниться</a>
+        <h2>Главная страница</h2>
+        {% for object in  object_list%}
+            <div>Автор: {{ object.author }}</div>
+            <div>Название: {{ object.title }}</div>
+            <a href="{{ object.image_link }}">Обложка</a><br>
+            <a href="{{ object.book_link }}">Ссылка</a>
+            <div>isbn: {{ object.book_link }}</div>
+            <div>Описание: {{ object.description }}</div>
+            <div>id: {{ object.id_book }}</div>
+            <div>Дата добавления: {{ object.date_download }}</div>
+            <p></p>
+        {% endfor %}
+    {% load bootstrap4 %}
+    {% bootstrap_pagination page_obj %}
+    {% else %}
+        <h4>Вы не авторизовались. Только зарегестрированным пользователям
+        доступе контент.</h4>
+        <a href="{% url 'login' %}">Войти</a>
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
+    {% endif %}
+{% endblock %}
